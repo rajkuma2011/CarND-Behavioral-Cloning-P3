@@ -32,7 +32,7 @@ The goals / steps of this project are the following:
 ---
 ### Files Submitted & Code Quality
 
-#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission included files to run the simulator in autonomous mode
 
 My project includes the following files:
 * model.py containing the script to create and train the model. In order to train a new model - it needs to run as -
@@ -45,9 +45,9 @@ My project includes the following files:
     
     ##### python <driving_log_director> nvidia
     
-* drive.py for driving the car in autonomous mode
-* model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* drive.py for driving the car in autonomous mode - No change has been made in this file.
+* model.h5 containing a trained convolution neural network - Final model which has been generated on Nvidia model architecture after template.
+* BehaviorCloning.ipynb - ipython notebook having different models (lenet, nvida etc.).
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
@@ -60,6 +60,47 @@ python drive.py model.h5
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ### Model Architecture and Training Strategy
+
+Here is the model architecture - 
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+lambda_1 (Lambda)            (None, 160, 320, 3)       0         
+_________________________________________________________________
+cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 86, 316, 24)       1824      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 43, 158, 24)       0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 39, 154, 36)       21636     
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 19, 77, 36)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 15, 73, 48)        43248     
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 7, 36, 48)         0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 5, 34, 64)         27712     
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 3, 32, 64)         36928     
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 6144)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 100)               614500    
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 100)               0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 50)                5050      
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                510       
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 11        
+=================================================================
+Total params: 751,419
+Trainable params: 751,419
+Non-trainable params: 0
+_________________________________________________________________
 
 #### 1. An appropriate model architecture has been employed
 
