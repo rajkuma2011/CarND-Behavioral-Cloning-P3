@@ -14,6 +14,7 @@
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
 ### Video link of lane1 - https://youtu.be/ZGv59ir5J84
+#### BehaviorCloning.ipynb contains - images for data augmentation by fliping, and also model prediction score.
 #### 1. Submission included files to run the simulator in autonomous mode
 
 My project includes the following files:
