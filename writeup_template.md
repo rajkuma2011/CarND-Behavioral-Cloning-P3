@@ -2,19 +2,9 @@
 
 ## Writeup Template
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Behavioral Cloning Project**
-
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
-
 
 [//]: # (Image References)
 
@@ -30,8 +20,7 @@ The goals / steps of this project are the following:
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-### Files Submitted & Code Quality
-
+### Video link of lane1 - https://youtu.be/ZGv59ir5J84
 #### 1. Submission included files to run the simulator in autonomous mode
 
 My project includes the following files:
@@ -48,16 +37,6 @@ My project includes the following files:
 * drive.py for driving the car in autonomous mode - No change has been made in this file.
 * model.h5 containing a trained convolution neural network - Final model which has been generated on Nvidia model architecture after template.
 * BehaviorCloning.ipynb - ipython notebook having different models (lenet, nvida etc.).
-
-#### 2. Submission includes functional code
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
-```sh
-python drive.py model.h5
-```
-
-#### 3. Submission code is usable and readable
-
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ### Model Architecture and Training Strategy
 
@@ -131,8 +110,12 @@ The model has been trained and validated on diffeent sets of data and founds tha
 This model always stay on line while running on simulator. Here is the video link of the simulator captured through Xbox app. https://youtu.be/ZGv59ir5J84
 
 #### 3. Model parameter tuning
-
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+Following parameters are tuned - 
+a. optmizer - On try different optimizer, adam optimizer is found best. 
+b. learning rate - 0.001 learning is found to be best and converges without flactuating.
+c. epochs - 10 ephoch is found to be sufficient.
+d. activation function - tanh function converges fast and better than relu activation function.
+e. model architecture - Lenet, Nvida and their different variation by adding mulitple dense and convoluation layer is tried. Basic Nvida layer with representive training data, generated the correct model.
 
 #### 4. Training data creation - 
 
@@ -152,57 +135,3 @@ In order to generate new training data, where we can track of right lane, we neg
 Camera has mulitple cameras and in order to recover conditions where car is near about boundary, left camera or right camera image is used to agument the training data using correct factor. 
 
 In order to avoid overfit of model, I used only randomly either left or right camera image.
-
-### Model Architecture and Training Strategy
-
-#### 1. Solution Design Approach
-
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
-#### 2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
-
-#### 3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
