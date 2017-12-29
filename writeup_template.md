@@ -1,8 +1,5 @@
 # **Behavioral Cloning** 
 
-## Writeup Template
-
----
 
 **Behavioral Cloning Project**
 
@@ -16,10 +13,6 @@
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
-
----
 ### Video link of lane1 - https://youtu.be/ZGv59ir5J84
 #### 1. Submission included files to run the simulator in autonomous mode
 
