@@ -62,65 +62,96 @@ The model.py file contains the code for training and saving the convolution neur
 ### Model Architecture and Training Strategy
 
 #### 1. Here is the model architecture - 
-................................................................
-Layer (type)                 Output Shape              Param   
-................................................................
-lambda_1 (Lambda)            (None, 160, 320, 3)       0         
-................................................................
-cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0         
-................................................................
-conv2d_1 (Conv2D)            (None, 86, 316, 24)       1824      
-................................................................
-max_pooling2d_1 (MaxPooling2 (None, 43, 158, 24)       0         
-................................................................
-conv2d_2 (Conv2D)            (None, 39, 154, 36)       21636     
-................................................................
-max_pooling2d_2 (MaxPooling2 (None, 19, 77, 36)        0         
-................................................................
-conv2d_3 (Conv2D)            (None, 15, 73, 48)        43248     
-................................................................
-max_pooling2d_3 (MaxPooling2 (None, 7, 36, 48)         0         
-................................................................
-conv2d_4 (Conv2D)            (None, 5, 34, 64)         27712     
-................................................................
-conv2d_5 (Conv2D)            (None, 3, 32, 64)         36928     
-................................................................
-flatten_1 (Flatten)          (None, 6144)              0         
-................................................................
-dense_1 (Dense)              (None, 100)               614500    
-................................................................
-dropout_1 (Dropout)          (None, 100)               0         
-................................................................
-dense_2 (Dense)              (None, 50)                5050      
-.................................................................
-dense_3 (Dense)              (None, 10)                510       
-..................................................................
-dense_4 (Dense)              (None, 1)                 11        
-...................................................................
+Model architecture consists of - Image transformation (Image cropping) as first layer. cropping2d_1 layer is image cropping layer. 5 Covolution layers follows after cropping layer. Finally Dense layer is added along with drop out layer in middle to avoid overfit. 
+This architecture is mainly taken from -https://arxiv.org/pdf/1604.07316.pdf
+                ....................................................................................
+
+                Layer (type)                 Output Shape              Param   
+                .....................................................................................
+
+                lambda_1 (Lambda)            (None, 160, 320, 3)       0         
+                ......................................................................................
+
+                cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0         
+                ......................................................................................
+
+                conv2d_1 (Conv2D)            (None, 86, 316, 24)       1824      
+                .....................................................................................
+
+                max_pooling2d_1 (MaxPooling2 (None, 43, 158, 24)       0         
+                ....................................................................................
+
+                conv2d_2 (Conv2D)            (None, 39, 154, 36)       21636     
+                .....................................................................................
+
+                max_pooling2d_2 (MaxPooling2 (None, 19, 77, 36)        0         
+                ......................................................................................
+
+                conv2d_3 (Conv2D)            (None, 15, 73, 48)        43248     
+                ......................................................................................
+
+                max_pooling2d_3 (MaxPooling2 (None, 7, 36, 48)         0         
+                .....................................................................................
+
+                conv2d_4 (Conv2D)            (None, 5, 34, 64)         27712     
+                ......................................................................................
+
+                conv2d_5 (Conv2D)            (None, 3, 32, 64)         36928     
+                .....................................................................................
+
+                flatten_1 (Flatten)          (None, 6144)              0         
+                .....................................................................................
+
+                dense_1 (Dense)              (None, 100)               614500    
+                .....................................................................................
+
+                dropout_1 (Dropout)          (None, 100)               0         
+                ......................................................................................
+
+                dense_2 (Dense)              (None, 50)                5050      
+                ......................................................................................
+
+                dense_3 (Dense)              (None, 10)                510       
+                ......................................................................................
+
+                dense_4 (Dense)              (None, 1)                 11        
+                ......................................................................................
 ##### Total params: 751,419
 ##### Trainable params: 751,419
 ##### Non-trainable params: 0
 _________________________________________________________________
-
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
-
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+function  Nvidia_model in model.py describes the model architecture.
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+In order to resolving the overfitting of model, Dropping layer has been added beween Dense layer 1 and Dense layer 2. model.add(Dropout(0.2)) lines of code in Nvidia_model function represents the dropping layer componenet.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model has been trained and validated on diffeent sets of data and founds that it does not overfit. Even on trainng time, It is found that training accuracy and validation accuracy of model was minimal even though our validation content of the model was only 10%. 
+
+This model always stay on line while running on simulator. Here is the video link of the simulator captured through Xbox app. https://youtu.be/ZGv59ir5J84
 
 #### 3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
 
-#### 4. Appropriate training data
+#### 4. Training data creation - 
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+Tranining data was generated with following startegy - 
+a. Keeping the vehicle always on track with full speed.
+b. Focusing more on curve parts espcially in areas where bounday is open and it seems to be like road.
+c. Try to add sufficient data to have representation of all behaviors. For example - we have only one pool in one loop lane. If we drive the pool with maximum speed, Nearly 20-30 images will be generated. While choosing training data, it might be possible that pool behavior might not be available in training data. This may lead to unpredictable behavior. 
+I tried to make sure, all behavior is properly represented in training data.
+d. Two Lane training data is generated with low speeds and also where cars are moving towards boundary but recovery. This has been done to learn the model to recover in bad situations.
 
-For details about how I created the training data, see the next section. 
+#### 5. Traning data augmentation strategy -
+
+First lane is almost curve towards lane. Learning the model using central image leads to bias learning towards left steering, which is hard for small fraction of lane where it has right turn. Second this is also not good for real world driving as it seems to be overfitted towards left curve.
+
+In order to generate new training data, where we can track of right lane, we negated/flipped the image and augmented the data with right lane curve. This helps to generlize the model.
+
+Camera has mulitple cameras and in order to recover conditions where car is near about boundary, left camera or right camera image is used to agument the training data using correct factor. 
+
+In order to avoid overfit of model, I used only randomly either left or right camera image.
 
 ### Model Architecture and Training Strategy
 
