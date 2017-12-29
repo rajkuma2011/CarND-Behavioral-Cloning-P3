@@ -35,7 +35,16 @@ The goals / steps of this project are the following:
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
-* model.py containing the script to create and train the model
+* model.py containing the script to create and train the model. In order to train a new model - it needs to run as -
+    python model.py driving_log_directory model_name
+    
+    Here driving_log_directory is the directory where driving_log.csv file is saved. 
+    model_name is the name of model you want to use to train the model. Its value should be nvidia. We also have support of other models like - lenet but it has not generated sufficient score, hence has been removed from model.py to avoid the confusion but BehaviorCloning.ipny has lenet model and others etc.
+    
+    Run following command to execute the model
+    
+    ##### python <driving_log_director> nvidia
+    
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
 * writeup_report.md or writeup_report.pdf summarizing the results
