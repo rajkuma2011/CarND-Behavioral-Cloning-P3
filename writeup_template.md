@@ -128,3 +128,14 @@ In order to generate new training data, where we can track of right lane, we neg
 Camera has mulitple cameras and in order to recover conditions where car is near about boundary, left camera or right camera image is used to agument the training data using correct factor. 
 
 In order to avoid overfit of model, I used only randomly either left or right camera image.
+
+### 6. Challenges - 
+a. While training the model, image is read into BFR format by default due to cv2 library, but drive.py feeds the image in RGB format. This is obvious fix but it costs more than a week to trying different strategy to fix the model.
+b. Collecting the repsentative data - For example - sufficient data for lane where we dont have boundary and only available in less than 1% part of one lane. This is handled by adding more training data for correponding region.
+c. Figuring out, why it does not work. I found very challenging to dump the output of middle layer in Keras, hence could not figure out, why model is not working.
+d. Deciding the archicture of the model. Brute force strategy worked but does not seems to be good way.
+7. Model hardly predict 0.0 steering angle but it was predicting near to 0.0. Due to this, car fluctuates alot. We fixed it by normalization the score betwenn -0.01 to 0.01 angle to 0.0. This brough smoothness in the model.
+
+### 7. Improvements - 
+a. Model should not fluctuate and should speed up to max speed.
+b. Alex net or Google net should be tried using partially trained layer. 
